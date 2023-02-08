@@ -1,0 +1,224 @@
+@mixin navbar(
+  $style,
+  $position: static,
+  $bc_header,
+  $items: true,
+  $bc_item: null,
+  $bc_item_hover: null,
+  $item_clr: null,
+  $item_clr_hover: null,
+  $links_clr: null,
+  $links_clr_hover: null,
+  $btn: true,
+  $bc_btn: null,
+  $btn_clr: null,
+  $bc_btn_hover: null,
+  $btn_clr_hover: null
+) {
+  display: flex;
+  align-items: center;
+  background-color: $bc_header;
+  &__logoLink {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  &__nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  @if ($style == "rtl") {
+    justify-content: flex-end;
+    &__logo {
+      margin-right: auto;
+    }
+  } @else if ($style == "ltr") {
+    &__nav {
+      justify-content: unset;
+    }
+
+    &__logo {
+      order: 3;
+      margin-left: auto;
+    }
+
+    &__hamburger {
+      display: none;
+    }
+    &__nav {
+      order: 1;
+    }
+
+    &__btn {
+      order: 2;
+    }
+  } @else if ($style == "center") {
+    &__nav {
+      justify-content: center;
+    }
+  }
+
+  @if ($position: sticky) {
+    position: $position;
+    top: 0px;
+  } @else {
+    position: $position;
+  }
+
+  /* Global */
+  a {
+    text-decoration: none;
+  }
+
+  @if ($items==true) {
+    &__ul {
+      list-style-type: none;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 1em;
+    }
+
+    &__logo {
+      font-size: 1.7em;
+      cursor: pointer;
+    }
+
+    &__links,
+    &__item {
+      transition: all 300ms ease;
+    }
+
+    &__item {
+      background-color: $bc_item;
+      color: $item_clr;
+    }
+
+    &__links {
+      color: $links_clr;
+    }
+
+    &__item:hover {
+      background-color: $bc_item_hover;
+    }
+
+    &__links:hover {
+      color: $links_clr_hover;
+    }
+  }
+
+  @if ($btn ==true) {
+    &__btn {
+      color: $btn_clr;
+      background-color: $bc_btn;
+      transition: all 300ms ease;
+    }
+
+    &__btn:hover {
+      color: $btn_clr_hover;
+      background-color: $bc_btn_hover;
+    }
+    &__registration {
+      display: flex;
+      flex-direction: row;
+    }
+  }
+}
+
+@mixin navbarBreakpoint(
+  $breakpoint: "max-width:50em",
+  $hamburger_line_bc: #fff,
+  $nav_bc,
+  $ul_bc
+) {
+  @media screen and ($breakpoint) {
+    position: relative;
+    &__nav {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: 125%;
+      left: 50%;
+      right: 0;
+      background-color: $nav_bc;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-1em);
+      box-shadow: 0 2px 5px 0 hsla(0, 0%, 0%, 0.1);
+      transition: opacity 400ms ease-in-out, transform 400ms ease-in-out;
+      &--active {
+        opacity: 1;
+        transform: translateY(0) translateX(-50%);
+        pointer-events: all;
+      }
+    }
+    &__ul {
+      width: 100%;
+    }
+    &__item {
+      width: 100%;
+      display: flex;
+    }
+    &__hamburger {
+      display: flex;
+      width: 2em;
+      height: 1.625em;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      span {
+        display: block;
+        width: 85%;
+        height: 3px;
+        border-radius: 10px;
+        background-color: $hamburger_line_bc;
+        transition: 300ms ease-in-out;
+      }
+      &--active {
+        align-items: center;
+        justify-content: center;
+        span:nth-of-type(2) {
+          transform: translateX(105%);
+          opacity: 0;
+        }
+        span:nth-of-type(1) {
+          transform: rotate(50deg);
+          position: absolute;
+          inset-inline: 0;
+          margin: auto;
+        }
+        span:nth-of-type(3) {
+          transform: rotate(130deg);
+          position: absolute;
+          inset-inline: 0;
+          margin: auto;
+        }
+      }
+    }
+    &__ul {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: $ul_bc;
+      height: 100%;
+      transition: 0.6s;
+    }
+    &__registration {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
+
+/* .header {
+  @include navbar($style: "rtl", $bc_header: rgba(123, 123, 123, 0.5));
+  @include navbarBreakpoint();
+}
+ */

@@ -1,0 +1,84 @@
+.hero {
+  &__arrow {
+    animation-name: arrow;
+    animation-duration: 1000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+  }
+}
+
+@keyframes arrow {
+  from {
+    transform: translateY(-15px);
+  }
+  to {
+    transform: translateY(50px);
+  }
+}
+/* --- Global --- */
+
+a {
+  transition: all 300ms ease;
+}
+$speed: 1000ms;
+
+.--hidden {
+  opacity: 0;
+  filter: blur(5px);
+  transform: translateX(-100%);
+  transition: all $speed;
+}
+.--show {
+  filter: blur(0);
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* --- Main Section ---*/
+h2.--hidden,
+p.--hidden {
+  transform: translateY(100%);
+}
+h2.--show,
+p.--show {
+  transform: translateY(0);
+}
+
+/*--- Testimonial ---*/
+
+.testimonials__header.--hidden {
+  transform: none;
+}
+
+.testimonials__card.--hidden:nth-of-type(2),
+.testimonials__card.--hidden:nth-of-type(4) {
+  transform: translateY(100%);
+  transition: all $speed;
+}
+.testimonials__card.--show:nth-of-type(2),
+.testimonials__card.--show:nth-of-type(4) {
+  transform: translateY(0);
+}
+.testimonials__card.--hidden:nth-of-type(3) {
+  transform: translateY(-100%);
+  transition: all #{$speed + 500ms};
+}
+.testimonials__card.--show:nth-of-type(3) {
+  transform: translateY(0);
+}
+
+/* Photos Section */
+@for $i from 1 through 4 {
+  .photos__col-#{$i}.--hidden {
+    font-size: 20px;
+    transition: all #{$i * 400}ms;
+  }
+}
+
+/* --- disable --- */
+@media (prefers-reduced-motion) {
+  * {
+    animation: none;
+    transition: 0;
+  }
+}
